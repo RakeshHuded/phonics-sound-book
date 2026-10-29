@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Year 1 Phonics Check</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: single centred column; a "page" card mirrors the printed check (4 words per page), adult controls sit beneath each word */
+:root{
+  --bg:#f6f7fb; --paper:#ffffff; --ink:#1d2340; --muted:#5d6584; --line:#dfe2ee;
+  --accent:#2f4bd8; --accent-soft:#e6eafe; --alien:#1f8a5b; --alien-soft:#e3f5ec;
+  --ok:#1f8a5b; --ok-soft:#dcf3e7; --bad:#c2412d; --bad-soft:#fbe4df;
+  --word:"Andika","Comic Sans MS",system-ui,sans-serif;
+  --ui:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12152a; --paper:#1b2040; --ink:#eef0fa; --muted:#a2a9c8; --line:#2e3560;
+  --accent:#8fa2ff; --accent-soft:#252d5e; --alien:#5fd39c; --alien-soft:#163a2b;
+  --ok:#5fd39c; --ok-soft:#163a2b; --bad:#ff8a73; --bad-soft:#47201a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12152a; --paper:#1b2040; --ink:#eef0fa; --muted:#a2a9c8; --line:#2e3560;
+  --accent:#8fa2ff; --accent-soft:#252d5e; --alien:#5fd39c; --alien-soft:#163a2b;
+  --ok:#5fd39c; --ok-soft:#163a2b; --bad:#ff8a73; --bad-soft:#47201a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:1.6rem}
+h2{font-size:1.25rem}
+p{margin:0}
+.muted{color:var(--muted)}
+.eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:10px 16px;font-weight:700}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+button.ghost{background:transparent}
+button:disabled{opacity:.45;cursor:not-allowed}
+input[type=text]{font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+label{font-weight:700;font-size:.9rem}
+.papers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+button.armed{background:var(--bad);border-color:var(--bad);color:var(--paper)}
+.papers button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left}
+.papers button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.papers small{font-weight:400;color:var(--muted)}
+@media (max-width:480px){.papers{grid-template-columns:1fr}}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px;font-size:.92rem}
+.facts div{min-width:0}
+@media (max-width:480px){.facts{grid-template-columns:1fr}}
+
+/* test page */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.progress{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.progress span{display:block;height:100%;background:var(--accent);transition:width .25s}
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px 18px;display:flex;flex-direction:column;gap:18px;position:relative}
+.sheet.alienpage{border-color:var(--alien);box-shadow:0 0 0 3px var(--alien-soft)}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.alienbadge{display:flex;align-items:center;gap:8px;color:var(--alien);font-weight:700;font-size:.9rem}
+.words{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.word{border:1px solid var(--line);border-radius:12px;padding:18px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0}
+.word.ok{background:var(--ok-soft);border-color:var(--ok)}
+.word.bad{background:var(--bad-soft);border-color:var(--bad)}
+.word .w{font-family:var(--word);font-size:clamp(2.3rem,9vw,3.6rem);line-height:1.1;color:var(--ink);overflow-wrap:anywhere;text-align:center}
+.marks{display:flex;gap:8px}
+.marks button{padding:6px 10px;font-size:.9rem;white-space:nowrap}
+.marks .yes[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--paper)}
+.marks .no[aria-pressed="true"]{background:var(--bad);border-color:var(--bad);color:var(--paper)}
+.childmode .marks{opacity:.35}
+.nav{display:flex;justify-content:space-between;gap:10px}
+
+/* results */
+.score{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.score .big{font-size:3rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+.pill{display:inline-block;padding:4px 10px;border-radius:999px;font-weight:700;font-size:.85rem}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.breakdown{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.breakdown div{border-top:2px solid var(--line);padding-top:6px}
+.breakdown b{display:block;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.breakdown span{font-size:.8rem;color:var(--muted)}
+@media (max-width:480px){.breakdown{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.misslist{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.misslist li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:6px 0;flex-wrap:wrap}
+.misslist .mw{font-family:var(--word);font-size:1.3rem}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-family:var(--word);background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:2px 8px;font-size:.95rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="alien" viewBox="0 0 48 48">
+    <line x1="17" y1="10" x2="13" y2="3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="31" y1="10" x2="35" y2="3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="13" cy="3" r="2.5" fill="currentColor"/><circle cx="35" cy="3" r="2.5" fill="currentColor"/>
+    <ellipse cx="24" cy="24" rx="15" ry="14" fill="currentColor"/>
+    <circle cx="18" cy="21" r="4" fill="var(--paper)"/><circle cx="30" cy="21" r="4" fill="var(--paper)"/>
+    <circle cx="18.5" cy="21.5" r="2" fill="var(--ink)"/><circle cx="30.5" cy="21.5" r="2" fill="var(--ink)"/>
+    <path d="M18 30 Q24 35 30 30" stroke="var(--paper)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <rect x="15" y="36" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="28" y="36" width="5" height="9" rx="2.5" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<script>
+/* Each paper: 10 pages x 4 words. Section 1 = pages 1–5 (2 pseudo, 3 real); Section 2 = pages 6–10 (3 pseudo, 2 real). 20 real + 20 pseudo. */
+const PAPERS = {
+  A: {name:"Paper A", note:"Practice set 1", pages:[
+    ["tob","bim","vap","jeg"], ["shup","chom","glip","frad"],
+    ["fox","jam","pin","web"], ["ship","thin","chop","duck"], ["rain","moon","stop","milk"],
+    ["proat","thrid","splen","quab"], ["zape","chome","vute","frine"], ["phent","gerb","kirst","hoid"],
+    ["phone","shout","cried","stroke"], ["garden","picnic","thunder","sunlight"]
+  ]},
+  B: {name:"Paper B", note:"Practice set 2", pages:[
+    ["zat","pem","vug","dop"], ["thig","shen","brox","stip"],
+    ["cat","bed","rug","kit"], ["shed","chin","moth","back"], ["seed","fork","frog","hand"],
+    ["spreet","plurk","snoil","flaim"], ["mipe","glote","kube","sprane"], ["phib","yirm","chawp","stroy"],
+    ["stripe","boil","clown","few"], ["winter","pocket","ladder","seaside"]
+  ]},
+  C: {name:"Paper C", note:"Practice set 3", pages:[
+    ["fid","yot","lun","keb"], ["chab","thop","drem","plux"],
+    ["zip","van","mud","log"], ["fish","then","much","sock"], ["boat","light","star","jump"],
+    ["twurp","skeat","fraim","snoud"], ["jote","scrine","vake","prule"], ["wheff","glaw","zirt","choap"],
+    ["brave","house","stew","joint"], ["rocket","lunchbox","yellow","farmyard"]
+  ]}
+};
+const PSEUDO_PAGES = new Set([0,1,5,6,7]);
+/* Extra words per page slot, so "New words" can build fresh papers with the same structure */
+const EXTRA = [
+  ["nax","rup","hib","gop","wem","sut","jix","lom"],
+  ["bluck","thim","shog","crint","stum","flid","chot","grap"],
+  ["hen","sit","tub","map","dog","bun","wig","fan"],
+  ["ring","chick","shell","bath","sing","lock","wish","rich"],
+  ["feet","coin","tent","crab","park","night","coat","soon"],
+  ["strom","prigh","cleer","scroat","sploon","thrag","quorp","blairt"],
+  ["dake","blise","fote","trabe","kide","stane","plome","drube"],
+  ["phlay","dowk","smoy","terl","sheaf","yaw","noy","hirk"],
+  ["toy","burst","bird","chew","spoil","shore","cloud","pie"],
+  ["sandpit","carpet","button","rabbit","teacup","bedtime","popcorn","tunnel"]
+];
+const BANK = EXTRA.map((ex,p)=>[...new Set([...Object.values(PAPERS).flatMap(pp=>pp.pages[p]),...ex])]);
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function freshPaper(){ return BANK.map(pool=>shuffle(pool).slice(0,4)); }
+const PRACTICE = [["ut","jat","in","bag"]]; // ut/jat pseudo, in/bag real (mirrors the warm-up the teacher gives)
+const THRESHOLD = 32;
+
+/* grapheme spotter for the "sounds to practise" list */
+const GRAPHEMES = ["tch","igh","ear","air","ure","dge","sh","ch","th","ng","nk","qu","ck","wh","ph","ai","ee","oa","oo","ar","or","ur","ow","oi","er","ay","ou","ie","ea","oy","ir","ue","aw","ew","oe","au","ll","ss","ff","zz"];
+function graphemesIn(w){
+  const found=[]; const split=w.match(/([aeiou])[^aeiou]e$/);
+  if(split && w.length>=3) found.push(split[1]+"-e");
+  let i=0;
+  while(i<w.length){
+    const g=GRAPHEMES.find(g=>w.startsWith(g,i));
+    if(g){ if(!found.includes(g)) found.push(g); i+=g.length; } else i++;
+  }
+  return found;
+}
+
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+let S = {view:"home", paper:"A", child:"", page:0, marks:{}, practice:false, childMode:false, mix:null, armed:false};
+const paperName=()=>S.paper==="MIX"?"Fresh mix":PAPERS[S.paper].name;
+function newWords(){ S={...S,paper:"MIX",mix:freshPaper(),view:"test",page:0,marks:{},practice:false,armed:false}; render(); }
+const app=document.getElementById("app");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const alienIcon=(s=28)=>`<svg width="${s}" height="${s}" style="color:var(--alien)" aria-hidden="true"><use href="#alien"/></svg>`;
+
+function render(){ ({home,test,results})[S.view](); window.scrollTo(0,0); }
+
+function home(){
+  const hist=store.get("pscHistory",[]);
+  app.innerHTML=`
+  <header style="display:flex;flex-direction:column;gap:6px">
+    <span class="eyebrow">Key Stage 1 · Year 1</span>
+    <h1>Phonics Screening Check practice</h1>
+    <p class="muted">Follows the DfE check format: 40 words, read aloud one-to-one, with an adult marking each word.</p>
+  </header>
+
+  <section class="panel">
+    <h2>Start a check</h2>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label for="child">Child's name (optional)</label>
+      <input type="text" id="child" value="${esc(S.child)}" placeholder="e.g. Aarav">
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <span style="font-weight:700;font-size:.9rem">Choose a paper</span>
+      <div class="papers">${Object.entries(PAPERS).map(([k,p])=>`
+        <button type="button" data-paper="${k}" aria-pressed="${S.paper===k}">${p.name}<small>${p.note} · 40 words</small></button>`).join("")}
+        <button type="button" data-paper="MIX" aria-pressed="${S.paper==="MIX"}">↻ Fresh mix<small>New words every time · 40 words</small></button></div>
+    </div>
+    <div class="row">
+      <button class="ghost" id="practice">Warm-up (4 words)</button>
+      <button class="primary" id="start">Start ${paperName()}</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>How the real check works</h2>
+    <div class="facts">
+      <div><b>40 words in 2 sections.</b> Section 1 (20 words) uses simpler patterns. Section 2 (20 words) has trickier sounds, split digraphs like a-e and two-syllable words.</div>
+      <div><b>20 real, 20 alien words.</b> Alien (pseudo) words are shown with an alien picture. The child tells you how the alien's name sounds; they can't guess these from memory.</div>
+      <div><b>4 words per page.</b> The child reads each word aloud. Sounding out first is fine, as long as they then blend the whole word.</div>
+      <div><b>The pass mark.</b> In recent years it has been ${THRESHOLD} out of 40, though the DfE confirms it each June after the check.</div>
+    </div>
+    <p class="muted" style="font-size:.9rem">Tip: tap <b>Child view</b> during the check to fade out the marking buttons so the page looks like the real booklet.</p>
+  </section>
+
+  ${hist.length?`<section class="panel">
+    <div class="row" style="justify-content:space-between"><h2>Past attempts</h2><button class="ghost" id="clear">Clear</button></div>
+    <div class="tablewrap"><table><thead><tr><th>Date</th><th>Child</th><th>Paper</th><th>Score</th></tr></thead><tbody>
+    ${hist.slice().reverse().map(h=>`<tr><td>${esc(h.date)}</td><td>${esc(h.child||"—")}</td><td>${esc(h.paper)}</td><td><b>${h.score}</b>/40</td></tr>`).join("")}
+    </tbody></table></div>
+    <p class="muted" style="font-size:.85rem">Saved on this device only.</p>
+  </section>`:""}`;
+
+  app.querySelector("#child").oninput=e=>S.child=e.target.value;
+  app.querySelectorAll("[data-paper]").forEach(b=>b.onclick=()=>{S.paper=b.dataset.paper;home()});
+  app.querySelector("#start").onclick=()=>{ if(S.paper==="MIX") return newWords(); S={...S,view:"test",page:0,marks:{},practice:false};render()};
+  app.querySelector("#practice").onclick=()=>{S={...S,view:"test",page:0,marks:{},practice:true};render()};
+  const c=app.querySelector("#clear"); if(c) c.onclick=()=>{store.set("pscHistory",[]);home()};
+}
+
+function pagesNow(){ return S.practice?PRACTICE:(S.paper==="MIX"?S.mix:PAPERS[S.paper].pages); }
+
+function test(){
+  const pages=pagesNow(), p=S.page, words=pages[p];
+  const alien=S.practice?null:PSEUDO_PAGES.has(p);
+  const section=S.practice?"Warm-up":(p<5?"Section 1":"Section 2");
+  const total=pages.length*4, marked=Object.keys(S.marks).length;
+  const pageDone=words.every((_,i)=>S.marks[p+"-"+i]!==undefined);
+  app.innerHTML=`
+  <div class="topbar">
+    <div><span class="eyebrow">${S.practice?"Warm-up":paperName()} · ${section}</span>
+      <h2>Page ${p+1} of ${pages.length}</h2></div>
+    <div class="row">
+      ${S.practice?"":`<button class="ghost ${S.armed?"armed":""}" id="refresh" title="Start again with a new set of 40 words">${S.armed?"Tap again to restart":"↻ New words"}</button>`}
+      <button class="ghost" id="cm" aria-pressed="${S.childMode}">${S.childMode?"Adult view":"Child view"}</button>
+      <button class="ghost" id="quit">Exit</button>
+    </div>
+  </div>
+  <div class="progress" aria-label="${marked} of ${total} words marked"><span style="width:${marked/total*100}%"></span></div>
+
+  <div class="sheet ${alien?"alienpage":""} ${S.childMode?"childmode":""}">
+    ${S.practice?`<p class="muted" style="font-size:.9rem">Practice: the first two are alien words, the last two are real.</p>`:
+      `<div class="sheet-head">${alien?`<span class="alienbadge">${alienIcon(34)} Alien words: these are names of aliens</span>`:`<span class="eyebrow">Real words</span>`}</div>`}
+    <div class="words">${words.map((w,i)=>{
+      const m=S.marks[p+"-"+i];
+      return `<div class="word ${m===true?"ok":m===false?"bad":""}">
+        ${(S.practice&&i<2)?alienIcon(26):""}
+        <span class="w">${esc(w)}</span>
+        <div class="marks">
+          <button class="yes" data-i="${i}" data-v="1" aria-pressed="${m===true}" aria-label="Mark ${esc(w)} correct">✓ Correct</button>
+          <button class="no" data-i="${i}" data-v="0" aria-pressed="${m===false}" aria-label="Mark ${esc(w)} incorrect">✗</button>
+        </div></div>`}).join("")}</div>
+  </div>
+
+  <div class="nav">
+    <button id="prev" ${p===0?"disabled":""}>Back</button>
+    <button class="primary" id="next" ${pageDone?"":"disabled"}>${p===pages.length-1?"See results":"Next page"}</button>
+  </div>
+  ${pageDone?"":`<p class="muted" style="font-size:.85rem;text-align:center">Mark all four words to continue.</p>`}`;
+
+  app.querySelectorAll(".marks button").forEach(b=>b.onclick=()=>{S.marks[p+"-"+b.dataset.i]=b.dataset.v==="1";test()});
+  app.querySelector("#prev").onclick=()=>{S.page--;render()};
+  app.querySelector("#next").onclick=()=>{ if(p<pages.length-1){S.page++;render()} else finish(); };
+  app.querySelector("#cm").onclick=()=>{S.childMode=!S.childMode;test()};
+  const rf=app.querySelector("#refresh");
+  if(rf) rf.onclick=()=>{
+    if(!Object.keys(S.marks).length || S.armed) return newWords();
+    S.armed=true; test(); setTimeout(()=>{ if(S.armed&&S.view==="test"){S.armed=false;test()} },4000);
+  };
+  app.querySelector("#quit").onclick=()=>{S.view="home";render()};
+}
+
+function finish(){
+  if(!S.practice){
+    const score=Object.values(S.marks).filter(Boolean).length;
+    const h=store.get("pscHistory",[]);
+    h.push({date:new Date().toLocaleDateString("en-GB"),child:S.child.trim(),paper:paperName(),score});
+    store.set("pscHistory",h.slice(-30));
+  }
+  S.view="results"; render();
+}
+
+function results(){
+  const pages=pagesNow(); const all=[];
+  pages.forEach((ws,p)=>ws.forEach((w,i)=>all.push({w,p,ok:S.marks[p+"-"+i],pseudo:S.practice?i<2:PSEUDO_PAGES.has(p)})));
+  const c=f=>all.filter(f).filter(x=>x.ok).length, n=f=>all.filter(f).length;
+  const score=c(()=>true), max=all.length;
+  const missed=all.filter(x=>!x.ok);
+  const sounds={}; missed.forEach(x=>graphemesIn(x.w).forEach(g=>sounds[g]=(sounds[g]||0)+1));
+  const soundList=Object.entries(sounds).sort((a,b)=>b[1]-a[1]);
+  const met=score>=THRESHOLD;
+
+  app.innerHTML=`
+  <header style="display:flex;flex-direction:column;gap:4px">
+    <span class="eyebrow">${S.practice?"Warm-up":paperName()} results${S.child.trim()?" · "+esc(S.child.trim()):""}</span>
+    <div class="score"><span class="big">${score}</span><span class="muted">out of ${max}</span>
+      ${S.practice?"":`<span class="pill ${met?"ok":"bad"}">${met?"At or above the expected standard":"Below the expected standard"}</span>`}</div>
+    ${S.practice?"":`<p class="muted" style="font-size:.9rem">Compared with a mark of ${THRESHOLD}/40, the threshold used in recent years.</p>`}
+  </header>
+
+  ${S.practice?"":`<section class="panel">
+    <h2>Breakdown</h2>
+    <div class="breakdown">
+      <div><b>${c(x=>x.p<5)}/20</b><span>Section 1</span></div>
+      <div><b>${c(x=>x.p>=5)}/20</b><span>Section 2</span></div>
+      <div><b>${c(x=>!x.pseudo)}/${n(x=>!x.pseudo)}</b><span>Real words</span></div>
+      <div><b>${c(x=>x.pseudo)}/${n(x=>x.pseudo)}</b><span>Alien words</span></div>
+    </div>
+    ${c(x=>!x.pseudo)-c(x=>x.pseudo)>=4?`<p class="muted" style="font-size:.92rem">Real words are much stronger than alien words. That often means some words are being recognised by sight rather than decoded. Practise sounding out and blending made-up words.</p>`:""}
+  </section>`}
+
+  <section class="panel">
+    <h2>${missed.length?"Words to revisit":"Every word read correctly"}</h2>
+    ${missed.length?`<ul class="misslist">${missed.map(x=>`<li><span class="mw">${esc(x.w)}</span>
+      <span class="muted" style="font-size:.85rem">${x.pseudo?"alien":"real"}${S.practice?"":" · "+(x.p<5?"S1":"S2")}</span></li>`).join("")}</ul>`:`<p class="muted">Great reading. Try another paper for more practice.</p>`}
+    ${soundList.length?`<div style="display:flex;flex-direction:column;gap:6px"><span style="font-weight:700;font-size:.9rem">Sounds that came up in missed words</span>
+      <div class="chips">${soundList.map(([g,k])=>`<span class="chip">${esc(g)}${k>1?" ×"+k:""}</span>`).join("")}</div></div>`:""}
+  </section>
+
+  <div class="row">
+    <button class="primary" id="again">Back to start</button>
+    <button id="retry">Redo this ${S.practice?"warm-up":"paper"}</button>
+    <button id="fresh">↻ New words</button>
+  </div>`;
+  app.querySelector("#fresh").onclick=newWords;
+  app.querySelector("#again").onclick=()=>{S.view="home";render()};
+  app.querySelector("#retry").onclick=()=>{S.view="test";S.page=0;S.marks={};render()};
+}
+render();
+</script>
+
+</body>
+</html>
